@@ -31,6 +31,15 @@
 #   also delete it here.
 
 my $MOSH_VERSION = '1.2.4a';
+# Reassign MOSH_VERSION to latest git tag if git.
+system("git status > /dev/null");
+if ($? == 0) {
+	open(my $fh, "git describe |");
+	my @lines = <$fh>;
+	chomp @lines;
+	$MOSH_VERSION = "@lines";
+	$MOSH_VERSION = substr($MOSH_VERSION, index($MOSH_VERSION, "-") + 1, length $MOSH_VERSION);
+}
 
 use warnings;
 use strict;
